@@ -39,7 +39,7 @@ For the source-code version, keep the following files in the same directory:
 ```text
 visca.py
 requirements.txt
-logo.png
+logo_ViSCA.png
 ```
 
 ### Windows
@@ -50,7 +50,7 @@ logo.png
 
    `Add python.exe to PATH`
 
-2. Download the ViSCA source files and place `visca.py`, `requirements.txt`, and `logo.png` in the same directory.
+2. Download the ViSCA source files and place `visca.py`, `requirements.txt`, and `logo_ViSCA.png` in the same directory.
 
 3. Open **PowerShell** or **Command Prompt** in this directory.
 
@@ -78,7 +78,7 @@ venv\Scripts\python.exe visca.py
 1. Install a current version of Python 3 from:
    https://www.python.org/downloads/macos/
 
-2. Download the ViSCA source files and place `visca.py`, `requirements.txt`, and `logo.png` in the same directory.
+2. Download the ViSCA source files and place `visca.py`, `requirements.txt`, and `logo_ViSCA.png` in the same directory.
 
 3. Open **Terminal** in this directory.
 

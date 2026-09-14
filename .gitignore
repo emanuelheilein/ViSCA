@@ -4,7 +4,7 @@ __pycache__/
 
 .venv/
 venv/
-venv314/
+venv*/
 
 .DS_Store
 

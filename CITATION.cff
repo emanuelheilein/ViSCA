@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+
+message: "If you use ViSCA in your research, please cite the corresponding SoftwareX article."
+
+title: "ViSCA: Visual cell selection and area measurement"
+version: "1.0"
+license: "GPL-3.0-only"
+
+authors:
+  - {given-names: Emanuel, family-names: Heilein}
+  - {given-names: Felix, family-names: Kohlhas}
+
+preferred-citation:
+  type: article
+  title: "XXX"
+  authors:
+    - {given-names: Emanuel, family-names: Heilein}
+    - {given-names: Felix, family-names: Kohlhas}
+    - {given-names: "Lucia S.", family-names: Kilian}
+    - {given-names: Norbert, family-names: Frey}
+    - {given-names: Matthias, family-names: Eden}
+  journal: SoftwareX
+  year: XXXX
+  doi: "XXX"

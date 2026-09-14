@@ -23,7 +23,10 @@ Alternatively, ViSCA can be run directly from the Python source code as describe
 
 ### Requirements
 
-- Python 3
+ViSCA v1.0 was tested with Python 3.14.7 and the package versions specified in `requirements.txt`.
+
+Main dependencies:
+
 - NumPy
 - SciPy
 - pandas

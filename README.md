@@ -6,26 +6,161 @@ Created by Emanuel Heilein
 First published: 06/2026  
 Copyright (C) 2026 Emanuel Heilein
 
-Legal code license: GNU General Public License v3.0  
-Legal software license: GNU General Public License v3.0
+License: GNU General Public License v3.0
+
+---
 
 ## Overview
 
-ViSCA is an open-source Python tool for morphology-filtered single-cell area measurement of cultured neonatal rat ventricular cardiomyocytes (NRVCM) in immunofluorescence images. ViSCA processes paired cellbody and nucleus images and combines intensity thresholding, size filtering, mononuclearity assessment, nuclear circularity filtering, nucleus-to-cellbody area ratio filtering, and selectable watershed handling.
+ViSCA is an open-source tool for morphology-filtered single-cell area measurement of cultured neonatal rat ventricular cardiomyocytes (NRVCM) in immunofluorescence images.
 
-The software provides a graphical user interface with interactive preview windows and exports mask panels, CSV files with single-cell measurements, aggregated output tables, and parameter metadata.
+ViSCA processes paired cellbody and nucleus images and combines intensity thresholding, size filtering, mononuclearity assessment, nuclear circularity filtering, nucleus-to-cellbody area ratio filtering, and selectable watershed handling.
 
-## Download ViSCA
+The software provides a graphical user interface with interactive preview windows and exports mask panels, CSV files with single-cell measurements, aggregated output tables, parameter metadata, and quality-control output files.
 
-Precompiled versions of ViSCA are provided in the **Releases** section of this GitHub repository.
+---
 
-Planned standalone versions are available for:
+## Intended use
 
-- Windows 64-bit
-- macOS Intel
-- macOS Apple Silicon
+ViSCA is intended for research use in fluorescence image analysis of cultured cardiomyocytes.
 
-Alternatively, ViSCA can be run directly from the Python source code as described below.
+The software was developed for area measurement of cultured neonatal rat ventricular cardiomyocytes stained for cellbody and nuclei. Other cell types, staining protocols, or imaging settings may require parameter adjustment and independent validation.
+
+ViSCA is not intended for clinical diagnosis or medical decision-making.
+
+---
+
+## Download ViSCA without Python installation
+
+For most users, the easiest way to use ViSCA is to download the precompiled app from the latest release:
+
+👉 **[Download ViSCA v1.0](../../releases/latest)**
+
+Choose the file matching your operating system:
+
+| Operating system | Download file |
+|---|---|
+| Windows 64-bit | `ViSCA_v1.0_Windows_64bit.zip` |
+| macOS Intel | `ViSCA_v1.0_macOS_Intel.zip` |
+| macOS Apple Silicon (M1/M2/M3/M4) | `ViSCA_v1.0_macOS_AppleSilicon.zip` |
+
+After download, extract the ZIP archive and start:
+
+- `ViSCA.exe` on Windows
+- `ViSCA.app` on macOS
+
+No Python installation is required for these precompiled versions.
+
+### Security note
+
+ViSCA is currently not code-signed. Depending on your operating system settings, Windows or macOS may show a security warning when opening the app for the first time.
+
+On macOS, right-click or Control-click `ViSCA.app`, choose **Open**, and confirm that you want to open the app.
+
+On Windows, a SmartScreen warning may appear. Choose **More info** and then **Run anyway** if you trust the downloaded file.
+
+---
+
+## Quick start
+
+1. Download the ZIP file matching your operating system.
+2. Extract the ZIP archive.
+3. Start `ViSCA.exe` on Windows or `ViSCA.app` on macOS.
+4. Select the cellbody image folder and the corresponding nucleus image folder.
+5. Adjust parameters or use the default settings.
+6. Use the preview windows to inspect segmentation and filtering.
+7. Start batch processing.
+8. Review the generated output folders and CSV files.
+
+---
+
+## Input data
+
+ViSCA requires paired fluorescence microscopy images:
+
+- one image channel showing the cardiomyocyte cellbody
+- one image channel showing nuclei
+
+The cellbody and nucleus images should correspond to the same fields of view and should be stored in separate folders.
+
+Example structure:
+
+```text
+Experiment_folder/
+├── cell/
+│   ├── image_01.tif
+│   ├── image_02.tif
+│   └── image_03.tif
+└── nucleus/
+    ├── image_01.tif
+    ├── image_02.tif
+    └── image_03.tif
+```
+
+The image order and naming should allow each cellbody image to be matched to the corresponding nucleus image.
+
+---
+
+## Output files
+
+For each analyzed image set, ViSCA exports:
+
+- mask panels showing the analysis workflow
+- CSV files with single-cell area measurements
+- aggregated CSV files
+- parameter metadata
+- quality-control output files
+
+Typical output includes:
+
+```text
+Area_csv/
+├── image_01_cell_areas.csv
+├── image_02_cell_areas.csv
+└── aggregated_cell_areas.csv
+```
+
+The area CSV files contain measured cell areas and corresponding nucleus areas for valid selected cells.
+
+---
+
+## Default analysis parameters
+
+The standard ViSCA v1.0 workflow uses the following default parameters:
+
+| Parameter | Default value |
+|---|---:|
+| Pixel scale | `3.0769 px/µm` |
+| Cellbody intensity threshold | `mean` |
+| Minimum cellbody area | `100 µm²` |
+| Maximum cellbody area | `10000 µm²` |
+| Nucleus intensity threshold | `otsu` |
+| Minimum nucleus area | `20 µm²` |
+| Maximum nucleus area | `600 µm²` |
+| Nuclear circularity threshold | `0.73` |
+| Nucleus-to-cellbody area ratio threshold | `0.3` |
+| Watershed mode | `Split` |
+| Watershed sigma | `6.0` |
+| Watershed minimum distance | `30` |
+| Watershed h value | `3.0` |
+
+Objects with nuclear circularity values below or equal to the circularity threshold are excluded. Objects with nucleus-to-cellbody area ratios greater than or equal to the ratio threshold are excluded.
+
+---
+
+## Watershed modes
+
+ViSCA provides three watershed handling modes:
+
+| Mode | Description |
+|---|---|
+| `No Watershed` | Cellbody objects are analyzed without watershed-based separation. |
+| `Split` | Watershed-separated objects are retained and analyzed individually. |
+| `Exclude` | Objects affected by watershed separation are excluded from final measurement. |
+
+`Split` is the default mode in ViSCA v1.0.
+
+---
 
 ## Tested environments
 
@@ -42,21 +177,122 @@ ViSCA v1.0 was tested with:
 
 Tested operating environments:
 
-- Windows 11 Pro 64-bit, version 25H2, build 26200.9168, Intel Core i5-13400
+- Windows 11 Pro 64-bit, Intel Core i5-13400
 - macOS Sequoia 15.1, Apple Silicon M4 Pro
 - macOS Catalina 10.15.8, Intel Core i5
 
-Note: Please update this section after final testing of all standalone builds.
+---
 
 ## Running ViSCA from source code
 
-### Requirements
+Users who prefer to run ViSCA directly from the Python source code can do so using the instructions below.
 
-The required Python packages are listed in `requirements.txt`.
+### Required files
 
-For the source-code version, keep the following files in the same directory:
+Keep the following files in the same directory:
 
 ```text
 ViSCA.py
 requirements.txt
 logo_ViSCA.png
+```
+
+### Python requirements
+
+The required Python packages are listed in `requirements.txt`.
+
+Example `requirements.txt` for ViSCA v1.0:
+
+```text
+numpy==2.5.3
+scipy==1.18.1
+pandas==3.0.5
+matplotlib==3.11.2
+scikit-image==0.26.0
+Pillow==12.3.0
+```
+
+Tkinter is not listed in `requirements.txt` because it is provided through the Python or system installation.
+
+---
+
+## Windows source-code installation
+
+1. Install Python 3.
+2. Download or clone this repository.
+3. Open PowerShell in the ViSCA folder.
+4. Create and activate a virtual environment:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+5. Install the required packages:
+
+```powershell
+python -m pip install --upgrade pip setuptools wheel
+python -m pip install -r requirements.txt
+```
+
+6. Start ViSCA:
+
+```powershell
+python ViSCA.py
+```
+
+---
+
+## macOS source-code installation
+
+1. Install Python 3.
+2. Download or clone this repository.
+3. Open Terminal in the ViSCA folder.
+4. Create and activate a virtual environment:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+5. Install the required packages:
+
+```bash
+python -m pip install --upgrade pip setuptools wheel
+python -m pip install -r requirements.txt
+```
+
+6. Start ViSCA:
+
+```bash
+python ViSCA.py
+```
+
+---
+
+## Citation
+
+If you use ViSCA in scientific work, please cite the corresponding publication once available.
+
+Citation metadata are provided in:
+
+```text
+CITATION.cff
+```
+
+---
+
+## License
+
+ViSCA is distributed under the GNU General Public License v3.0.
+
+See the `LICENSE` file for details.
+
+---
+
+## Contact
+
+For questions, feedback, or bug reports, please contact:
+
+Emanuel Heilein  
+emanuel@heilein.de

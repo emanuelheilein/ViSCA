@@ -51,6 +51,21 @@ After download, extract the ZIP archive and start:
 
 No Python installation is required for these precompiled versions.
 
+### Example data
+
+An optional example dataset is available in the release assets:
+
+| File | Description |
+|---|---|
+| `ViSCA_v1.0_example_data.zip` | Paired example fluorescence images for testing ViSCA |
+
+After extracting the example data ZIP, select:
+
+- `cellbody-channel` as the cellbody image folder
+- `nucleus-channel` as the nucleus image folder
+
+The example dataset contains 16 paired fields of view and can be used to test the precompiled app or the source-code version of ViSCA.
+
 ### Security note
 
 ViSCA is currently not code-signed. Depending on your operating system settings, Windows or macOS may show a security warning when opening the app for the first time.
@@ -63,7 +78,7 @@ On Windows, a SmartScreen warning may appear. Choose **More info** and then **Ru
 
 ## Quick start
 
-1. Download the ZIP file matching your operating system.
+1. Download the ZIP file matching your operating system. Optionally, also download `ViSCA_v1.0_example_data.zip` to test ViSCA with example images.
 2. Extract the ZIP archive.
 3. Start `ViSCA.exe` on Windows or `ViSCA.app` on macOS.
 4. Select the cellbody image folder and the corresponding nucleus image folder.

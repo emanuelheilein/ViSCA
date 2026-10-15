@@ -159,7 +159,7 @@ The standard ViSCA v1.0 workflow uses the following default parameters:
 | Watershed minimum distance | `30` |
 | Watershed h value | `3.0` |
 
-Objects with nuclear circularity values below or equal to the circularity threshold are excluded. Objects with nucleus-to-cellbody area ratios greater than or equal to the ratio threshold are excluded.
+Objects with nuclear circularity values below or equal to the circularity threshold are excluded. Objects with nucleus-to-cellbody area ratios greater than or equal to the ratio threshold are excluded. The default circularity cutoff of 0.73 was chosen by visual inspection of NRVCM images. As circularity depends on image resolution, segmentation quality, and nuclear morphology, users should verify and adjust this threshold using representative previews when imaging conditions differ.
 
 ---
 

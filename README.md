@@ -112,7 +112,9 @@ Experiment_folder/
     └── image_03.tif
 ```
 
-The image order and naming should allow each cellbody image to be matched to the corresponding nucleus image.
+ViSCA pairs cellbody and nuclear images by lexicographically sorted filename order, not by matching filename identifiers. Both folders must therefore contain corresponding images in identical sort order. For example, `image_10.tif` may sort before `image_2.tif`; zero-padded filenames such as `image_02.tif` and `image_10.tif` are recommended. Users must verify channel correspondence before analysis, as incorrect pairing can lead to invalid measurements.
+
+Supported input formats are TIFF (`.tif`, `.tiff`), PNG (`.png`), and JPEG (`.jpg`, `.jpeg`). Lossless grayscale TIFF or PNG images are recommended for quantitative analysis. JPEG compression and RGB-to-grayscale conversion may affect intensity-based segmentation. Because mean-intensity thresholding depends on the image intensity distribution, segmentation thresholds should be checked in the preview windows, particularly when staining intensity, cell density, or image acquisition settings differ.
 
 ---
 
@@ -135,7 +137,9 @@ Area_csv/
 └── aggregated_cell_areas.csv
 ```
 
-The area CSV files contain measured cell areas and corresponding nucleus areas for valid selected cells.
+The area CSV files contain measured cell areas and corresponding nucleus areas for valid selected cells. CSV files use semicolon delimiters (`;`) and decimal commas (`,`). These formatting conventions reflect the native ViSCA v1.0 output. Users importing the files into statistical software should specify the corresponding delimiter and decimal separator.
+
+The exported parameter metadata document the settings used for an analysis run. In ViSCA v1.0, these files are intended for documentation and are not automatically reloaded to replay an analysis. Reproducing a run requires using the same input images, software version, and analysis settings.
 
 ---
 
@@ -148,7 +152,7 @@ The standard ViSCA v1.0 workflow uses the following default parameters:
 | Pixel scale | `3.0769 px/µm` |
 | Cellbody intensity threshold | `mean` |
 | Minimum cellbody area | `100 µm²` |
-| Maximum cellbody area | `10000 µm²` |
+| Maximum cellbody area | `10,000 µm²` |
 | Nucleus intensity threshold | `otsu` |
 | Minimum nucleus area | `20 µm²` |
 | Maximum nucleus area | `600 µm²` |
@@ -159,7 +163,9 @@ The standard ViSCA v1.0 workflow uses the following default parameters:
 | Watershed minimum distance | `30` |
 | Watershed h value | `3.0` |
 
-Objects with nuclear circularity values below or equal to the circularity threshold are excluded. Objects with nucleus-to-cellbody area ratios greater than or equal to the ratio threshold are excluded. The default circularity cutoff of 0.73 was chosen by visual inspection of NRVCM images. As circularity depends on image resolution, segmentation quality, and nuclear morphology, users should verify and adjust this threshold using representative previews when imaging conditions differ.
+ViSCA retains candidate cell-body objects containing exactly one segmented nucleus fully enclosed by the cell-body mask. Cells overlapping a nuclear object with circularity greater than 0 and less than or equal to the configured circularity threshold (default: 0.73) are excluded. Nuclear circularity is calculated as 4πA/P² using the scikit-image `regionprops.perimeter` estimator. The nucleus-to-cell-body area ratio filter retains cells with a ratio strictly below the configured threshold (default: 0.30); objects with ratios ≥ 0.30 are excluded at the default setting. Minimum and maximum area thresholds are inclusive, and objects touching the image border are excluded.
+
+The default circularity cutoff was selected by visual inspection of NRVCM images. Nuclear circularity and other segmentation results depend on image resolution, staining quality, and morphology. Users should inspect representative previews and adjust parameters when imaging conditions differ.
 
 ---
 
@@ -170,10 +176,12 @@ ViSCA provides three watershed handling modes:
 | Mode | Description |
 |---|---|
 | `No Watershed` | Cellbody objects are analyzed without watershed-based separation. |
-| `Split` | Watershed-separated objects are retained and analyzed individually. |
+| `Split` | Watershed-separated segments are retained only if they pass downstream size, border, and morphology filters. |
 | `Exclude` | Objects affected by watershed separation are excluded from final measurement. |
 
 `Split` is the default mode in ViSCA v1.0.
+
+In Split and Exclude modes, watershed processing is applied to thresholded cell-body objects before cell-size and border filtering. The implementation uses a distance transform, Gaussian smoothing (default σ = 6 pixels), h-maxima processing (default h = 3), and marker detection with a minimum distance of 30 pixels before marker-controlled watershed segmentation. These parameters are adjustable but pixel-dependent and may require adaptation when image resolution or magnification changes.
 
 ---
 

@@ -295,6 +295,16 @@ python ViSCA.py
 
 ---
 
+## Development and contributions
+
+**Emanuel Heilein** conceived ViSCA, developed its core algorithms and software architecture, and implemented the substantial majority of the source code. He was responsible for the overall software design and scientific methodology.
+
+**Felix Kohlhas** contributed to the software development and implementation.
+
+Emanuel Heilein is the lead developer and primary maintainer of ViSCA.
+
+---
+
 ## Citation
 
 If you use ViSCA in scientific work, please cite the corresponding publication once available.

@@ -212,7 +212,9 @@ Users who prefer to run ViSCA directly from the Python source code can do so usi
 
 ### Required files
 
-Keep the following files in the same directory:
+The canonical source files are available together in `src/` (`ViSCA.py` and `logo_ViSCA.png`). The repository root also retains the same files for compatibility with the commands below. To run from `src/`, start `python src/ViSCA.py` (Windows) or `python3 src/ViSCA.py` (macOS) from the repository root.
+
+For the root-level launch commands below, keep these files in the same directory:
 
 ```text
 ViSCA.py
@@ -309,7 +311,7 @@ CITATION.cff
 
 ViSCA is distributed under the GNU General Public License v3.0.
 
-See the `LICENSE` file for details.
+See `LICENSE.txt` for the complete GPL v3 license text (`LICENSE` is retained for GitHub license detection).
 
 ---
 
